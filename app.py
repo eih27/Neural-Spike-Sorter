@@ -42,170 +42,74 @@ ACCENT_DIM = "#475569"
 def apply_style(fig, axes):
     """Apply dark theme."""
     fig.patch.set_facecolor(BG_COLOR)
-    if not isinstance(axes, (list, np.ndarray)):
+    if not hasattr(axes, '__iter__'):
         axes = [axes]
-    else:
-        axes = list(np.array(axes).flatten())
     for ax in axes:
-        ax.set_facecolor(BG_COLOR)
-        ax.tick_params(colors=TEXT_COLOR, labelsize=8)
-        ax.xaxis.label.set_color(TEXT_COLOR)
-        ax.yaxis.label.set_color(TEXT_COLOR)
-        ax.title.set_color(TEXT_COLOR)
-        for spine in ax.spines.values():
-            spine.set_color(GRID_COLOR)
-        ax.grid(True, alpha=0.15, color=GRID_COLOR)
+        if hasattr(ax, 'set_facecolor'):
+            ax.set_facecolor(BG_COLOR)
+            ax.tick_params(colors=TEXT_COLOR, labelsize=8)
+            ax.spines['bottom'].set_color(GRID_COLOR)
+            ax.spines['left'].set_color(GRID_COLOR)
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.xaxis.label.set_color(TEXT_COLOR)
+            ax.yaxis.label.set_color(TEXT_COLOR)
+            ax.title.set_color(TEXT_COLOR)
 
 
 # ─── Custom CSS ──────────────────────────────────────────────────────────────
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-    .stApp {
-        background-color: #0F172A;
-        color: #E2E8F0;
-        font-family: 'Inter', sans-serif;
-    }
-
-    section[data-testid="stSidebar"] {
-        background-color: #1E293B;
-        border-right: 1px solid #334155;
-    }
-
-    section[data-testid="stSidebar"] .stMarkdown p,
-    section[data-testid="stSidebar"] .stMarkdown label,
-    section[data-testid="stSidebar"] label {
-        color: #CBD5E1 !important;
-    }
-
-    h1, h2, h3 {
-        color: #F1F5F9 !important;
-        font-family: 'Inter', sans-serif !important;
-    }
-
     .hero-title {
-        font-size: 2.4rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, #3B82F6, #8B5CF6, #EC4899);
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #3B82F6, #8B5CF6);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 0;
-        line-height: 1.2;
-    }
-
-    .hero-subtitle {
-        font-size: 1.05rem;
-        color: #94A3B8;
-        margin-top: 0.25rem;
-        margin-bottom: 1.5rem;
-        font-weight: 300;
-    }
-
-    .metric-card {
-        background: linear-gradient(135deg, #1E293B, #1a2332);
-        border: 1px solid #334155;
-        border-radius: 12px;
-        padding: 1.1rem 1.3rem;
         text-align: center;
+        margin-bottom: 0.3rem;
     }
-
-    .metric-value {
-        font-size: 1.8rem;
+    .hero-subtitle {
+        text-align: center;
+        color: #94A3B8;
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    .section-header {
+        font-size: 1.1rem;
         font-weight: 700;
-        color: #F1F5F9;
-        line-height: 1.2;
+        color: #E2E8F0;
+        margin-bottom: 1rem;
+        border-left: 3px solid #3B82F6;
+        padding-left: 0.8rem;
     }
-
+    .metric-card {
+        background: #1E293B;
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #334155;
+    }
+    .metric-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #3B82F6;
+    }
     .metric-label {
-        font-size: 0.8rem;
-        color: #64748B;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
+        font-size: 0.75rem;
+        color: #94A3B8;
         margin-top: 0.2rem;
     }
-
-    .section-header {
-        font-size: 1.15rem;
-        font-weight: 600;
-        color: #F1F5F9;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid #334155;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-    }
-
-    .pipeline-step {
-        background: #1E293B;
-        border-left: 3px solid #3B82F6;
-        border-radius: 0 8px 8px 0;
-        padding: 0.8rem 1rem;
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
-        color: #CBD5E1;
-    }
-
-    .quality-good { color: #10B981; font-weight: 600; }
-    .quality-warn { color: #F59E0B; font-weight: 600; }
-    .quality-bad { color: #EF4444; font-weight: 600; }
-
-    div[data-testid="stMetricValue"] {
-        color: #F1F5F9 !important;
-    }
-
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 2px;
-        background-color: #1E293B;
-        border-radius: 8px;
-        padding: 4px;
-    }
-
-    .stTabs [data-baseweb="tab"] {
-        background-color: transparent;
-        color: #94A3B8;
-        border-radius: 6px;
-        padding: 8px 16px;
-        font-weight: 500;
-    }
-
-    .stTabs [aria-selected="true"] {
-        background-color: #334155 !important;
-        color: #F1F5F9 !important;
-    }
-
-    .stButton > button {
-        background: linear-gradient(135deg, #3B82F6, #2563EB);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        padding: 0.6rem 1.5rem;
-        transition: all 0.2s;
-    }
-
-    .stButton > button:hover {
-        background: linear-gradient(135deg, #60A5FA, #3B82F6);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    }
-
-    div[data-testid="stExpander"] {
-        background-color: #1E293B;
-        border: 1px solid #334155;
-        border-radius: 8px;
-    }
-
     .tech-badge {
         display: inline-block;
-        background: #334155;
+        background: #1E293B;
         color: #94A3B8;
-        padding: 3px 10px;
-        border-radius: 12px;
-        font-size: 0.75rem;
-        font-weight: 500;
-        margin-right: 6px;
-        margin-bottom: 4px;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        margin: 0.1rem;
+        border: 1px solid #334155;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -215,10 +119,9 @@ st.markdown("""
 
 with st.sidebar:
     st.markdown("## ⚙️ Parameters")
-    st.markdown("---")
 
     st.markdown("**Simulation**")
-    duration = st.slider("Recording duration (s)", 30, 300, 120, step=10)
+    duration = st.slider("Recording duration (s)", 30, 300, 120, step=30)
     n_units = st.slider("Number of neurons", 2, 6, 4)
     noise_level = st.slider("Noise level", 0.05, 0.40, 0.15, step=0.05)
     n_trials = st.slider("Behavioural trials", 20, 120, 60, step=10)
@@ -235,7 +138,7 @@ with st.sidebar:
     st.markdown("---")
     seed = st.number_input("Random seed", value=42, step=1)
 
-    run_button = st.button("🚀 Run Pipeline", width='stretch')
+    run_button = st.button("🚀 Run Pipeline", width="stretch")
 
     st.markdown("---")
     st.markdown(
@@ -264,7 +167,6 @@ st.markdown(
 @st.cache_data(show_spinner=False)
 def run_pipeline(duration, n_units, noise_level, n_trials, detection_method, n_sigma, max_clusters, seed):
     """Run the full pipeline and cache results."""
-    # Build config with variable firing rates
     base_rates = (5.0, 12.0, 8.0, 3.0, 7.0, 15.0)[:n_units]
     stim_gains = (3.0, 1.5, 2.5, 4.0, 2.0, 1.8)[:n_units]
 
@@ -308,26 +210,32 @@ def run_pipeline(duration, n_units, noise_level, n_trials, detection_method, n_s
         all_aligned[event_name] = aligned
 
     # 6. Trial-averaged waveforms
-    avg_waveforms = compute_trial_averaged_waveforms(detected.waveforms, sorting.labels)
+    avg_waveforms = compute_trial_averaged_waveforms(
+        detected.waveforms, detected.indices, sorting.labels,
+        data.events["stimulus"], cfg.fs, window=(-0.5, 1.0),
+    )
 
     return {
-        "cfg": cfg,
-        "data": data,
-        "filtered": filtered,
-        "detected": detected,
-        "sorting": sorting,
-        "all_aligned": all_aligned,
-        "avg_waveforms": avg_waveforms,
+        "cfg": cfg, "data": data, "filtered": filtered,
+        "detected": detected, "sorting": sorting,
+        "all_aligned": all_aligned, "avg_waveforms": avg_waveforms,
     }
 
 
-# Run on button press or first load
-if run_button or "results" not in st.session_state:
+# ─── Run on Button Press ────────────────────────────────────────────────────
+
+if "results" not in st.session_state:
+    st.session_state["results"] = None
+
+if run_button or st.session_state["results"] is None:
     with st.spinner("Running pipeline..."):
-        progress = st.progress(0, text="Simulating electrophysiology data...")
+        progress = st.progress(0)
+        for i in range(5):
+            progress.progress((i + 1) * 20)
+            time.sleep(0.2)
         results = run_pipeline(duration, n_units, noise_level, n_trials,
                                detection_method, n_sigma, max_clusters, seed)
-        progress.progress(100, text="Pipeline complete!")
+        progress.progress(100)
         time.sleep(0.3)
         progress.empty()
         st.session_state["results"] = results
@@ -412,7 +320,7 @@ with tab_raw:
 
     axes[-1].set_xlabel("Time (s)", fontsize=10)
     fig.tight_layout(rect=[0, 0, 1, 0.93])
-    st.pyplot(fig, width='stretch')
+    st.pyplot(fig, width="stretch")
     plt.close(fig)
 
 
@@ -466,7 +374,7 @@ with tab_pca:
         ax3d.zaxis.pane.fill = False
 
     fig.tight_layout(rect=[0, 0, 1, 0.94])
-    st.pyplot(fig, width='stretch')
+    st.pyplot(fig, width="stretch")
     plt.close(fig)
 
 
@@ -510,7 +418,7 @@ with tab_wf:
                 ax.set_title(f"Channel {ch}", fontsize=9, color=TEXT_COLOR)
 
     fig.tight_layout(rect=[0, 0, 1, 0.96])
-    st.pyplot(fig, width='stretch')
+    st.pyplot(fig, width="stretch")
     plt.close(fig)
 
 
@@ -526,61 +434,61 @@ with tab_quality:
     quality_cols = st.columns(len(units))
     for col, uid in zip(quality_cols, units):
         q = quality[uid]
-        isi_class = "quality-good" if q["isi_violation_rate"] < 0.01 else (
-            "quality-warn" if q["isi_violation_rate"] < 0.05 else "quality-bad"
-        )
+        color = PALETTE[uid % len(PALETTE)]
         col.markdown(
             f'<div class="metric-card">'
-            f'<div style="color:{PALETTE[uid % len(PALETTE)]};font-weight:700;font-size:1rem;">Unit {uid}</div>'
-            f'<div style="font-size:0.82rem;color:#94A3B8;margin-top:0.4rem;">'
-            f'{q["n_spikes"]} spikes<br>'
-            f'FR: {q["firing_rate_hz"]} Hz<br>'
-            f'SNR: {q["snr"]}<br>'
-            f'ISI: <span class="{isi_class}">{q["isi_violation_rate"]*100:.2f}%</span>'
-            f'</div></div>',
+            f'<div class="metric-value" style="color:{color}">Unit {uid}</div>'
+            f'<div class="metric-label">Spikes: {q["n_spikes"]:,}<br>'
+            f'Rate: {q["firing_rate"]:.1f} Hz<br>'
+            f'SNR: {q["snr"]:.1f}<br>'
+            f'ISI viol: {q["isi_violation_rate"]*100:.2f}%</div>'
+            f'</div>',
             unsafe_allow_html=True,
         )
 
     # Bar charts
-    metrics = ["n_spikes", "firing_rate_hz", "snr", "isi_violation_rate"]
+    fig, axes = plt.subplots(1, 4, figsize=(16, 4))
+    apply_style(fig, axes)
+    fig.suptitle("Quality Metrics", fontsize=13, color=TEXT_COLOR, fontweight="bold", y=1.02)
+
+    metrics = ["n_spikes", "firing_rate", "snr", "isi_violation_rate"]
     titles = ["Spike Count", "Firing Rate (Hz)", "SNR", "ISI Violation Rate"]
 
-    fig, axes = plt.subplots(1, 4, figsize=(16, 3.5))
-    apply_style(fig, axes)
-
     for ax, metric, title in zip(axes, metrics, titles):
-        values = [quality[u][metric] for u in units]
+        vals = [quality[u][metric] for u in units]
         colors = [PALETTE[u % len(PALETTE)] for u in units]
-        ax.bar([f"U{u}" for u in units], values, color=colors, edgecolor="none", width=0.6)
-        ax.set_title(title, fontsize=10, color=TEXT_COLOR)
-
-        if metric == "isi_violation_rate":
-            ax.axhline(0.01, color=PALETTE[1], linestyle="--", alpha=0.5, linewidth=0.8)
+        bars = ax.bar([f"U{u}" for u in units], vals, color=colors, alpha=0.8, edgecolor="none")
+        ax.set_title(title, fontsize=10, color=TEXT_COLOR, fontweight="bold")
+        for bar, v in zip(bars, vals):
+            fmt = f"{v:,.0f}" if metric == "n_spikes" else f"{v:.2f}"
+            ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
+                    fmt, ha="center", va="bottom", fontsize=7, color=TEXT_COLOR)
 
     fig.tight_layout()
-    st.pyplot(fig, width='stretch')
+    st.pyplot(fig, width="stretch")
     plt.close(fig)
 
 
-# ── Tab 5: Raster Plots ─────────────────────────────────────────────────────
+# ── Tab 5: Rasters ──────────────────────────────────────────────────────────
 
 with tab_raster:
-    st.markdown('<div class="section-header">Raster Plots — Event-Aligned</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Spike Rasters Aligned to Events</div>', unsafe_allow_html=True)
 
-    event_choice = st.selectbox("Align to event:", ["stimulus", "response", "reward"], key="raster_ev")
-    aligned = all_aligned[event_choice]
-    units_r = sorted(aligned.keys())
+    event_choice_r = st.selectbox("Align to event:", ["stimulus", "response", "reward"], key="raster_ev")
+    aligned_r = all_aligned[event_choice_r]
+    units_r = sorted(aligned_r.keys())
 
-    fig, axes = plt.subplots(1, len(units_r), figsize=(3.5 * len(units_r), 5), sharey=True, squeeze=False)
-    axes = axes[0]
+    fig, axes = plt.subplots(1, len(units_r), figsize=(4 * len(units_r), 6), sharey=True)
+    if len(units_r) == 1:
+        axes = [axes]
     apply_style(fig, axes)
-    fig.suptitle(f"Raster — Aligned to {event_choice.title()}", fontsize=13,
+    fig.suptitle(f"Raster — {event_choice_r.title()}", fontsize=13,
                  color=TEXT_COLOR, fontweight="bold", y=0.98)
 
     for ax, uid in zip(axes, units_r):
-        ad = aligned[uid]
+        ad = aligned_r[uid]
         color = PALETTE[uid % len(PALETTE)]
-        for trial_idx, spikes in enumerate(ad.trial_spike_times):
+        for trial_idx, spikes in enumerate(ad.raster):
             ax.scatter(spikes, np.full_like(spikes, trial_idx),
                        color=color, s=2, marker="|", linewidths=0.6)
         ax.axvline(0, color="white", linewidth=0.8, linestyle="--", alpha=0.6)
@@ -590,7 +498,7 @@ with tab_raster:
             ax.set_ylabel("Trial #", fontsize=9)
 
     fig.tight_layout(rect=[0, 0, 1, 0.94])
-    st.pyplot(fig, use_container_width=True)
+    st.pyplot(fig, width="stretch")
     plt.close(fig)
 
 
@@ -623,7 +531,7 @@ with tab_psth:
 
     axes[-1].set_xlabel("Time from event (s)", fontsize=10)
     fig.tight_layout(rect=[0, 0, 1, 0.96])
-    st.pyplot(fig, use_container_width=True)
+    st.pyplot(fig, width="stretch")
     plt.close(fig)
 
 
@@ -658,7 +566,7 @@ with tab_avg:
 
     axes[-1].set_xlabel("Time from event (s)", fontsize=10)
     fig.tight_layout(rect=[0, 0, 1, 0.96])
-    st.pyplot(fig, use_container_width=True)
+    st.pyplot(fig, width="stretch")
     plt.close(fig)
 
 
