@@ -235,7 +235,7 @@ with st.sidebar:
     st.markdown("---")
     seed = st.number_input("Random seed", value=42, step=1)
 
-    run_button = st.button("🚀 Run Pipeline", use_container_width=True)
+    run_button = st.button("🚀 Run Pipeline", width='stretch')
 
     st.markdown("---")
     st.markdown(
@@ -412,7 +412,7 @@ with tab_raw:
 
     axes[-1].set_xlabel("Time (s)", fontsize=10)
     fig.tight_layout(rect=[0, 0, 1, 0.93])
-    st.pyplot(fig, use_container_width=True)
+    st.pyplot(fig, width='stretch')
     plt.close(fig)
 
 
@@ -466,7 +466,7 @@ with tab_pca:
         ax3d.zaxis.pane.fill = False
 
     fig.tight_layout(rect=[0, 0, 1, 0.94])
-    st.pyplot(fig, use_container_width=True)
+    st.pyplot(fig, width='stretch')
     plt.close(fig)
 
 
@@ -510,7 +510,7 @@ with tab_wf:
                 ax.set_title(f"Channel {ch}", fontsize=9, color=TEXT_COLOR)
 
     fig.tight_layout(rect=[0, 0, 1, 0.96])
-    st.pyplot(fig, use_container_width=True)
+    st.pyplot(fig, width='stretch')
     plt.close(fig)
 
 
@@ -558,7 +558,7 @@ with tab_quality:
             ax.axhline(0.01, color=PALETTE[1], linestyle="--", alpha=0.5, linewidth=0.8)
 
     fig.tight_layout()
-    st.pyplot(fig, use_container_width=True)
+    st.pyplot(fig, width='stretch')
     plt.close(fig)
 
 
