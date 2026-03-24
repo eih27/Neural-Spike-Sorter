@@ -138,7 +138,7 @@ with st.sidebar:
     st.markdown("---")
     seed = st.number_input("Random seed", value=42, step=1)
 
-    run_button = st.button("🚀 Run Pipeline", width="stretch")
+    run_button = st.button("🚀 Run Pipeline")
 
     st.markdown("---")
     st.markdown(
